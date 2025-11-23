@@ -1,48 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import Hero from './components/Hero';
-import BookingWidget from './components/BookingWidget';
 import AdminDashboard from './components/AdminDashboard';
+import BookingPage from './components/BookingPage';
+import SuperAdmin from './components/SuperAdmin';
+import OwnerLogin from './components/OwnerLogin';
 
 function App() {
-  const [showAdmin, setShowAdmin] = useState(false);
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-
-  const handleAdminClick = () => {
-    setShowAdmin(!showAdmin);
-    setSelectedRestaurant(null); // Reset restaurant view when going to admin
-  };
-
-  const handleLogoClick = () => {
-    setShowAdmin(false);
-    setSelectedRestaurant(null); // Go back to Home
-  };
-
   return (
     <div className="app-container">
-      <Navbar
-        onAdminClick={handleAdminClick}
-        onLogoClick={handleLogoClick}
-        restaurantName={selectedRestaurant?.name}
-      />
+      <Navbar />
       <main>
-        {showAdmin ? (
-          <div className="container" style={{ padding: 'var(--spacing-xl) 0' }}>
-            <AdminDashboard />
-          </div>
-        ) : selectedRestaurant ? (
-          <>
-            <Hero restaurant={selectedRestaurant} />
-            <section id="reservation" className="reservation-section">
-              <div className="container">
-                <BookingWidget restaurant={selectedRestaurant} />
-              </div>
-            </section>
-          </>
-        ) : (
-          <Home onSelectRestaurant={setSelectedRestaurant} />
-        )}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/book/:id" element={<BookingPage />} />
+          <Route path="/super-admin" element={<SuperAdmin />} />
+          <Route path="/partner-login" element={<OwnerLogin />} />
+          <Route path="/admin" element={
+            <div className="container" style={{ padding: 'var(--spacing-xl) 0' }}>
+              <AdminDashboard />
+            </div>
+          } />
+        </Routes>
       </main>
       <footer className="footer">
         <div className="container">

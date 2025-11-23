@@ -36,6 +36,8 @@ public class Reservation {
     @jakarta.validation.constraints.NotBlank(message = "Restaurant name is required")
     private String restaurantName;
 
+    private Long restaurantId;
+
     private LocalDateTime createdAt;
 
     public Reservation() {
@@ -114,6 +116,14 @@ public class Reservation {
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
-@CrossOrigin(origins = "http://localhost:5173") // Allow Vite frontend
+@CrossOrigin(origins = { "http://localhost:5173", "http://localhost:5174" }) // Allow Vite frontend
 public class ReservationController {
 
     @Autowired
