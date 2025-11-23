@@ -17,8 +17,12 @@ const AdminDashboard = () => {
     }, []);
 
     const handleStatusChange = async (id, newStatus) => {
-        await updateReservationStatus(id, newStatus);
-        loadReservations();
+        const result = await updateReservationStatus(id, newStatus);
+        if (result) {
+            loadReservations();
+        } else {
+            alert("Failed to update status. Please try again.");
+        }
     };
 
     // Analytics Logic

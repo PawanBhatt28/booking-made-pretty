@@ -12,6 +12,18 @@ const BookingForm = ({ onBookingSuccess, restaurantName }) => {
     });
     const [loading, setLoading] = useState(false);
 
+    // Helper functions for dates
+    const getTodayDate = () => {
+        const today = new Date();
+        return today.toISOString().split('T')[0];
+    };
+
+    const getTomorrowDate = () => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return tomorrow.toISOString().split('T')[0];
+    };
+
     // Quick Select Options
     const timeSlots = ['6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM'];
     const guestOptions = [1, 2, 3, 4, 5, 6];
@@ -27,15 +39,36 @@ const BookingForm = ({ onBookingSuccess, restaurantName }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Basic Validation
         if (!formData.date || !formData.time) {
             alert("Please pick a day and time!");
             return;
         }
+
+        // Phone Validation (Indian Format: 10 digits, optional +91)
+        const phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            alert("Please enter a valid Indian phone number!");
+            return;
+        }
+
         setLoading(true);
-        // await new Promise(resolve => setTimeout(resolve, 800)); // Remove fake delay
-        await addReservation(formData);
-        setLoading(false);
-        onBookingSuccess();
+
+        try {
+            const result = await addReservation({ ...formData, restaurantName });
+
+            if (result) {
+                onBookingSuccess();
+            } else {
+                alert("Booking failed! Please try again.");
+            }
+        } catch (error) {
+            console.error("Booking error:", error);
+            alert("Something went wrong. Please check your connection.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

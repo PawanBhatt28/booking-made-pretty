@@ -16,7 +16,8 @@ public class Reservation {
     private String name;
 
     @jakarta.validation.constraints.NotBlank(message = "Phone number is required")
-    @jakarta.validation.constraints.Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
+    // Allow 10 digits, or +91 followed by 10 digits
+    @jakarta.validation.constraints.Pattern(regexp = "^(\\+91)?[6-9]\\d{9}$", message = "Invalid phone number")
     private String phone;
 
     @jakarta.validation.constraints.NotBlank(message = "Date is required")
